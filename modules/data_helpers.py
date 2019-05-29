@@ -22,6 +22,16 @@ def parse_genres(df):
 	# split genres into indvidual columns and label with True when genre matches index
 	genres = df['genres'].str.split('|').apply(lambda x: pd.Series([True]*len(x), index=x))
 	genre_cols = genres.columns
-	df[genre_cols] = df[genre_cols].fillna(False)
+	df_ = pd.concat([df, genres], axis=1)
+	df_[genre_cols] = df_[genre_cols].fillna(False)
 
-	return df
+	return (df_, genre_cols)
+
+def get_genre_ratings(df, genre_cols):
+	imdb = pd.to_numeric(df['imdb_score'])
+	df['imdb_score'] = imdb
+	scores = {}
+	for g in genre_cols:
+		genre = df[df[g]==True]
+		scores[g] = genre['imdb_score'].mean()
+	return pd.Series(scores).sort_values()[:10]
