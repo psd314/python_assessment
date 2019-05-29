@@ -19,7 +19,7 @@ def run():
 
 	genre_df, genre_cols = parse_genres(df)
 	print("\nBONUS! The 10 Genres you DON'T want to see.")
-	print("Worst performing imdb scores by genre")
+	print("Worst performing average imdb scores by genre")
 	print(get_genre_ratings(genre_df, genre_cols))
 if __name__ == '__main__':
 	run()
