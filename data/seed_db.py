@@ -19,3 +19,4 @@ with open('movie_metadata.csv', newline='') as csv_file:
         else:
             with con:
                 c.execute(f'INSERT INTO imdb VALUES ({qs})', tuple(row))
+con.close()
