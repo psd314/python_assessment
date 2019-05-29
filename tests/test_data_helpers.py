@@ -19,30 +19,32 @@ class TestDataHelpers():
 	def test_calculate_profit_column(self):
 		con = sqlite3.connect('data/imdb.db')
 		df = pd.read_sql_query('SELECT * FROM imdb', con)
-		df_profit = calculate_profit_column(df)
+		df_ = df
+		df_profit = calculate_profit_column(df_)
 		con.close()
-
-		gross_df = pd.to_numeric(df.gross[0])
-		budget_df = pd.to_numeric(df.budget[0])
-		profit_df = (gross_df-budget_df)/budget_df
-
-		gross_df_prof = df_profit.gross[0]
-		budget_df_prof = df_profit.budget[0]
-		profit_df_prof = (gross_df_prof-budget_df_prof)/budget_df_prof
-
-		assert profit_df == profit_df_prof 
-		assert pd.isna(df_profit.profit).any() == False
+		
+		for i in range(df_profit.shape[0]):
+			gross_df = pd.to_numeric(df.gross[i])
+			budget_df = pd.to_numeric(df.budget[i])
+			profit_df = (gross_df-budget_df)/budget_df
+			
+			# verify that calculations from raw data df
+			# returned by calculate_profit_column function
+			if not pd.isna(df_profit.loc[i, 'profit']):
+				assert profit_df == df_profit.loc[i, 'profit']	
 
 	def test_get_most_profitable_directors(self):
 		con = sqlite3.connect('data/imdb.db')
 		df = pd.read_sql_query('SELECT * FROM imdb', con)
 		con.close()
-		df_ = calculate_profit_column(df)
-		df_ = get_most_profitable_directors(df)
+		df_ = df
+		df_ = calculate_profit_column(df_)
+		directors = get_most_profitable_directors(df_)
+		
+		# loop through directors and verify their totals are correct with
+		for d in directors.index.values:
+			assert df_.profit[df_.director_name==d].sum() == directors[d]
 
-		df['profit'] = (pd.to_numeric(df['gross'])
-			-pd.to_numeric(df['budget']))/pd.to_numeric(df['budget'])
-		df.dropna(subset=['profit'], inplace=True)
 	def test_parse_genres(self):
 		con = sqlite3.connect('data/imdb.db')
 		df = pd.read_sql_query('SELECT * FROM imdb', con)
