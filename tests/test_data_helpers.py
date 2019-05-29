@@ -1,7 +1,8 @@
 from python_assessment.modules.data_helpers import (
 	query_db, 
 	calculate_profit_column,
-	parse_genres)
+	parse_genres,
+	get_most_profitable_directors)
 import sqlite3
 import pandas as pd
 
@@ -32,7 +33,17 @@ class TestDataHelpers():
 		assert profit_df == profit_df_prof 
 		assert pd.isna(df_profit.profit).any() == False
 
-	def test_parse_genres():
+	def test_get_most_profitable_directors(self):
+		con = sqlite3.connect('data/imdb.db')
+		df = pd.read_sql_query('SELECT * FROM imdb', con)
+		con.close()
+		df_ = calculate_profit_column(df)
+		df_ = get_most_profitable_directors(df)
+
+		df['profit'] = (pd.to_numeric(df['gross'])
+			-pd.to_numeric(df['budget']))/pd.to_numeric(df['budget'])
+		df.dropna(subset=['profit'], inplace=True)
+	def test_parse_genres(self):
 		con = sqlite3.connect('data/imdb.db')
 		df = pd.read_sql_query('SELECT * FROM imdb', con)
 		con.close()

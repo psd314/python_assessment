@@ -5,11 +5,18 @@ def query_db(query, con):
 
 def calculate_profit_column(df):
 	# fillna with a small number to prevent division by zero
-	df['gross'] = pd.to_numeric(df['gross']).fillna(1e-7)
-	df['budget'] = pd.to_numeric(df['budget']).fillna(1e-7)
+	df['gross'] = pd.to_numeric(df['gross'])
+	df['budget'] = pd.to_numeric(df['budget'])
 	# calculate profitability
 	df['profit'] = (df['gross']-df['budget'])/df['budget']
 	return df
+
+def get_most_profitable_directors(df):
+	# remove rows with NaN from calculation
+	df_ = df.dropna(subset=['profit'])
+	# aggregate profitability by summing and sort descending
+	df_ = df_.groupby('director_name')['profit'].agg(sum).sort_values(ascending=False)[:10]
+	return df_
 
 def parse_genres(df):
 	# split genres into indvidual columns and label with True when genre matches index
