@@ -14,5 +14,4 @@
 4. $ python main.py
 
 ### Unit Testing
-5. from /python_assesment folder: 
-  * $ pytest
+5. $ pytest
