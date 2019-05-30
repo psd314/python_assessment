@@ -17,4 +17,4 @@
 5. $ pytest
 
 
-# See notes.txt for libraries and steps in development process
+##### *See notes.txt for libraries and steps in development process
