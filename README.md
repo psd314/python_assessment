@@ -1,6 +1,7 @@
 # python_assessment
+All commands run from python_assessment folder unless specifiec otherwise
 
-### Install Dependencies (run from python_assessment folder)
+### Install Dependencies 
 1. Activate virtual environment
   * $ source assessment/bin/activate
 2. Install Packages
@@ -17,4 +18,4 @@
 5. $ pytest
 
 
-##### *See notes.txt for libraries and steps in development process
+*See notes.txt for libraries and steps in development process
