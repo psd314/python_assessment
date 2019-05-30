@@ -2,7 +2,8 @@ from python_assessment.modules.data_helpers import (
 	query_db, 
 	calculate_profit_column,
 	parse_genres,
-	get_most_profitable_directors)
+	get_most_profitable_directors,
+	get_genre_ratings)
 import sqlite3
 import pandas as pd
 
@@ -60,4 +61,17 @@ class TestDataHelpers():
 				assert df_.loc[0, r] == False
 
 
+	def test_get_genre_ratings(self):
+		con = sqlite3.connect('data/imdb.db')
+		df = pd.read_sql_query('SELECT * FROM imdb', con)
+		con.close()
 
+		df_, genre_cols = parse_genres(df)
+		scores = get_genre_ratings(df_, genre_cols)
+
+		worst_genre = scores.index[0]
+		worst_genre_scores = df_[df_[worst_genre]==True]
+		worst_score = worst_genre_scores['imdb_score'].mean()
+		
+		assert worst_score == scores[0]
+		
