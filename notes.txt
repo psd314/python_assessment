@@ -29,6 +29,6 @@ glance so I'd like to go back and highlight those areas to improving code readab
 - More robust unit testing.  Some of the tests have good representative assertion cases but
 I'd like to add additional cases to better validate the results.
 
-- Using MultiIndexing. I initially wanted to tackle the actor, director pair problem and suspected 
-using MultiIndexing would be a good approach but I couldn't get it work. Instead I pivoted to
+- Using MultiIndexing/Melt. I initially wanted to tackle the actor, director pair problem and suspected 
+using MultiIndexing and/or column melting would be a good approach but I couldn't get it work. Instead I pivoted to
 investigating average imdb score based on film genre.
