@@ -1,5 +1,5 @@
 # python_assessment
-All commands run from python_assessment folder unless specifiec otherwise
+All commands run from python_assessment folder unless specified otherwise
 
 ### Install Dependencies 
 1. Activate virtual environment (using python venv module https://docs.python.org/3/library/venv.html#module-venv)
