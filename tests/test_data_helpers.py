@@ -49,4 +49,15 @@ class TestDataHelpers():
 		con = sqlite3.connect('data/imdb.db')
 		df = pd.read_sql_query('SELECT * FROM imdb', con)
 		con.close()
-		pass
+		df_, genre_cols = parse_genres(df)
+			
+		row_genres = df.genres[0].split('|')
+		# check if genres are correctly mapped to columns
+		for r in genre_cols:
+			if r in row_genres:
+				assert df_.loc[0, r] == True
+			else:
+				assert df_.loc[0, r] == False
+
+
+
